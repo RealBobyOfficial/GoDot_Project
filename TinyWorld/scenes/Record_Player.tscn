@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://h7escnaoty68"]
+
+[ext_resource type="Texture2D" uid="uid://bydeuupc8h82k" path="res://sprites/Blue.png" id="1_a3jh4"]
+[ext_resource type="AudioStream" uid="uid://dsthoh0biaito" path="res://Music/Tutorial_Music.mp3" id="2_tqsw7"]
+
+[sub_resource type="GDScript" id="GDScript_2giv0"]
+script/source = "extends TextureRect
+
+
+func _on_area_2d_area_entered(area):
+	if area.is_in_group(\"Player\"):
+		$AudioStreamPlayer2D.play()
+
+func _on_area_2d_area_exited(area):
+	if area.is_in_group(\"Player\"):
+		$AudioStreamPlayer2D.stop()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7qwwb"]
+radius = 51.0392
+
+[node name="Record_Player" type="TextureRect"]
+texture_filter = 1
+offset_left = 1221.0
+offset_top = 574.0
+offset_right = 1285.0
+offset_bottom = 638.0
+texture = ExtResource("1_a3jh4")
+script = SubResource("GDScript_2giv0")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Record_Player"]]
+position = Vector2(32, 36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_7qwwb")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(32, 36)
+stream = ExtResource("2_tqsw7")
+volume_db = 3.811
+max_distance = 600.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
