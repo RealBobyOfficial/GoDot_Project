@@ -1,0 +1,150 @@
+[gd_scene load_steps=9 format=3 uid="uid://dcn1prlvqbygn"]
+
+[ext_resource type="Shader" path="res://ui/PauseMenu/PauseMenu.gdshader" id="1_dyt5v"]
+[ext_resource type="Script" path="res://ui/PauseMenu/PauseMenu.gd" id="1_wcibb"]
+[ext_resource type="FontFile" uid="uid://j34nxqyg1kvt" path="res://ui/Font/m5x7.ttf" id="3_nxd3l"]
+[ext_resource type="Texture2D" uid="uid://jxxygckge8lq" path="res://sprites/WoodMenu.png" id="4_4bilh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_awogy"]
+shader = ExtResource("1_dyt5v")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Animation" id="Animation_scel8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_in37s"]
+resource_name = "blur"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.685]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xsaxc"]
+_data = {
+"RESET": SubResource("Animation_scel8"),
+"blur": SubResource("Animation_in37s")
+}
+
+[node name="Node" type="Node"]
+
+[node name="PauseMenu" type="Control" parent="."]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wcibb")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+material = SubResource("ShaderMaterial_awogy")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -249.0
+offset_top = -209.0
+offset_right = 249.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenu/PanelContainer/VBoxContainer"]
+show_behind_parent = true
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_4bilh")
+stretch_mode = 1
+
+[node name="Resume" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nxd3l")
+theme_override_font_sizes/font_size = 40
+text = "Resume"
+
+[node name="Restart" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nxd3l")
+theme_override_font_sizes/font_size = 40
+text = "Restart"
+
+[node name="Quit" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nxd3l")
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenu"]
+libraries = {
+"": SubResource("AnimationLibrary_xsaxc")
+}
+
+[connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Resume" to="PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseMenu" method="_on_quit_pressed"]

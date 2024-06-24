@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://cyqoyjo35j5om"]
+
+[ext_resource type="Script" path="res://enemies/Enemy_1/Enemy_1.gd" id="1_vv4q1"]
+[ext_resource type="Texture2D" uid="uid://d34hdeb2bka3v" path="res://sprites/Jump (32x32) (2).png" id="2_cp78w"]
+[ext_resource type="Script" path="res://enemies/Enemy_1/Health.gd" id="5_gxvev"]
+[ext_resource type="Script" path="res://AI States/EnemyIdle.gd" id="5_meuag"]
+[ext_resource type="Script" path="res://AI States/State Machine.gd" id="6_neslk"]
+[ext_resource type="Script" path="res://AI States/EnemyFollow.gd" id="6_ohs5h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yuod4"]
+size = Vector2(54, 77)
+
+[node name="Node" type="Node"]
+
+[node name="FlyingEnemy" type="CharacterBody2D" parent="."]
+position = Vector2(1366, 573)
+script = ExtResource("1_vv4q1")
+
+[node name="Sprite2D" type="Sprite2D" parent="FlyingEnemy"]
+texture_filter = 1
+position = Vector2(-4, 29.5)
+scale = Vector2(2.25, 2.40625)
+texture = ExtResource("2_cp78w")
+
+[node name="Health" type="Label" parent="FlyingEnemy"]
+offset_left = -19.0
+offset_top = -86.0
+offset_right = 21.0
+offset_bottom = -17.0
+theme_override_font_sizes/font_size = 50
+script = ExtResource("5_gxvev")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlyingEnemy"]
+position = Vector2(0, 29.5)
+shape = SubResource("RectangleShape2D_yuod4")
+
+[node name="State Machine" type="Node" parent="FlyingEnemy"]
+script = ExtResource("6_neslk")
+
+[node name="EnemyIdle" type="Node" parent="FlyingEnemy/State Machine"]
+script = ExtResource("5_meuag")
+move_speed = 100.0
+
+[node name="EnemyFollow" type="Node" parent="FlyingEnemy/State Machine"]
+script = ExtResource("6_ohs5h")

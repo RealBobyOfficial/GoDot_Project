@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dj8ewrl6l7qb5"]
+
+[ext_resource type="Script" path="res://enemies/Enemy_1/Enemy_1.gd" id="1_8rt68"]
+[ext_resource type="Texture2D" uid="uid://d34hdeb2bka3v" path="res://sprites/Jump (32x32) (2).png" id="2_20xfk"]
+[ext_resource type="PackedScene" uid="uid://cwo1577u8n1mc" path="res://interaction/interaction area/interaction_area.tscn" id="3_np1g0"]
+[ext_resource type="AudioStream" uid="uid://dsthoh0biaito" path="res://Music/Tutorial_Music.mp3" id="4_eyjfx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tlp2i"]
+radius = 63.0079
+
+[node name="NPC_1" type="CharacterBody2D"]
+position = Vector2(1366, 573)
+script = ExtResource("1_8rt68")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-4, 29.5)
+scale = Vector2(2.25, 2.40625)
+texture = ExtResource("2_20xfk")
+
+[node name="InteractionArea" parent="." instance=ExtResource("3_np1g0")]
+position = Vector2(-1, 33)
+action_name = "talk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_tlp2i")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-1, 33)
+stream = ExtResource("4_eyjfx")
+volume_db = 1.0
+max_distance = 600.0
