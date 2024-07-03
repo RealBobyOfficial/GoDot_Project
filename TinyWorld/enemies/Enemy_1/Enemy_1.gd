@@ -1,14 +1,13 @@
 extends CharacterBody2D
 class_name FlyingEnemy
 
-#@onready var player = get_tree().get_first_node_in_group("player");
 @onready var Health = 10
 
 func _physics_process(delta):
 	move_and_slide()
 	
-	if velocity.length() > 0:
-		print("enemy running animation")
+	#if velocity.length() > 0:
+		#print("enemy running animation")
 		#$AnimationPlayer.play("run")
 		
 	if velocity.x > 0:

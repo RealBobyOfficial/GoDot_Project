@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://bq536c2twi3np"]
+
+[ext_resource type="Texture2D" uid="uid://d2oful0usx4pl" path="res://sprites/Jump (32x32).png" id="1_ggjbu"]
+[ext_resource type="Script" path="res://Player States/Player_StateMachine.gd" id="1_tj7yi"]
+[ext_resource type="Script" path="res://Player Scene/main_character.gd" id="1_unuil"]
+[ext_resource type="Script" path="res://Player States/Move.gd" id="3_6e708"]
+[ext_resource type="Script" path="res://Player States/Jump.gd" id="4_wh48t"]
+[ext_resource type="Script" path="res://Player States/Idle.gd" id="6_d6qc3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lr4rx"]
+size = Vector2(22, 28)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+position = Vector2(25, 3)
+disable_mode = 2
+collision_layer = 2
+slide_on_ceiling = false
+platform_floor_layers = 4294967042
+script = ExtResource("1_unuil")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(2, 3.25)
+texture = ExtResource("1_ggjbu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 5.25)
+rotation = 0.00193292
+shape = SubResource("RectangleShape2D_lr4rx")
+
+[node name="Player_StateMachine" type="Node" parent="."]
+script = ExtResource("1_tj7yi")
+
+[node name="Fall" type="Node" parent="Player_StateMachine"]
+
+[node name="Idle" type="Node" parent="Player_StateMachine"]
+script = ExtResource("6_d6qc3")
+
+[node name="Move" type="Node" parent="Player_StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("3_6e708")
+player = NodePath("../..")
+
+[node name="Jump" type="Node" parent="Player_StateMachine"]
+script = ExtResource("4_wh48t")
